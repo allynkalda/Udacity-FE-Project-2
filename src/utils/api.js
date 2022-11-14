@@ -5,16 +5,21 @@ import {
     _saveQuestionAnswer,
   } from './_DATA.js'
   
-  export function getInitialData () {
+  export function getInitialUsers () {
     return Promise.all([
         _getUsers(),
-        _getQuestions(),
-    ]).then(([users, tweets]) => ({
+    ]).then(([users]) => ({
       users,
-      tweets,
     }))
   }
   
+  export function getInitialQuestions () {
+    return Promise.all([
+        _getQuestions(),
+    ]).then(([questions]) => ({
+        questions,
+    }))
+  }
   export function saveQuestion (info) {
     return _saveQuestion(info)
   }
