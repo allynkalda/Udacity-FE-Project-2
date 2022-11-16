@@ -5,13 +5,12 @@ import { getAllQuestions } from "../actions/shared";
 const Dashboard = ({ authedUser, dispatch, answered, unanswered }) => {
     useEffect(() => {
         dispatch(getAllQuestions());
-      }, []);
+      }, [dispatch]);
 
       console.log('answered', answered)
       console.log('unanswered', unanswered)
     return (
         <>
-        <p>Logged in as {authedUser}</p>
         <p>Dashboard</p>
         </>
     )
