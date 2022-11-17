@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
+import { Tabs, Tab, Box, Button } from '@mui/material';
+import { setAuthedUser } from "../actions/authedUser";
 
-const Navigation = ({ children, authedUser }) => {
+const Navigation = ({ children, authedUser, dispatch }) => {
     let navigate = useNavigate();
 
     const [value, setValue] = React.useState(0);
@@ -15,10 +14,14 @@ const Navigation = ({ children, authedUser }) => {
       navigate(url)
     };
 
+    const handleLogout = () => {
+      dispatch(setAuthedUser(""))
+    };
     
     return (
         <Box sx={{ width: '100%' }}>
         <p>Logged in as {authedUser}</p>
+        <Button onClick={handleLogout}>Log out</Button>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} aria-label="basic tabs example">
             <Tab label="Dashboard" onClick={() => handleChange(0, '/dashboard')} />
