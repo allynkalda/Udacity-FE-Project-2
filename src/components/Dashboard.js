@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+
 import { getAllQuestions } from "../actions/shared";
 
 const Dashboard = ({ authedUser, dispatch, answered, unanswered }) => {
@@ -7,27 +9,44 @@ const Dashboard = ({ authedUser, dispatch, answered, unanswered }) => {
         dispatch(getAllQuestions());
       }, [dispatch]);
 
-      console.log('answered', answered)
-      console.log('unanswered', unanswered)
+    const UnansweredList = () => (
+        <div>
+            <h3>Unanswered</h3>
+            {unanswered.map((question) => (
+                <p><Link to={`/questions/${question.id}`}>{question.author} {question.id}</Link></p>
+            ))}
+        </div>
+    )
+
+    const AnsweredList = () => (
+        <div>
+            <h3>Answered</h3>
+            {answered.map((question) => (
+                <p><Link to={`/questions/${question.id}`}>{question.author} {question.id}</Link></p>
+            ))}
+        </div>
+    )
     return (
         <>
         <p>Dashboard</p>
+        <UnansweredList />
+        <AnsweredList />
         </>
     )
 }
 
-const mapStateToProps = ({ authedUser, questions }) => ({
-    authedUser,
-    answered: Object.keys(questions).filter((id) => {
-        const answeredOptionOne = questions[id] && questions[id].optionOne.votes.includes(authedUser)
-        const answeredOptionTwo = questions[id] && questions[id].optionTwo.votes.includes(authedUser)
-        return answeredOptionOne || answeredOptionTwo
-    }).map((id) => questions[id]),
-    unanswered: Object.keys(questions).filter((id) => {
-        const answeredOptionOne = questions[id] && questions[id].optionOne.votes.includes(authedUser)
-        const answeredOptionTwo = questions[id] && questions[id].optionTwo.votes.includes(authedUser)
-        return !answeredOptionOne || !answeredOptionTwo
-    }).map((id) => questions[id]),
-  });
+const mapStateToProps = ({ authedUser, questions }) => {
+    return {
+        authedUser,
+        answered: Object.keys(questions).filter((id) => 
+        questions[id].optionOne.votes.includes(authedUser)
+        || questions[id].optionTwo.votes.includes(authedUser)
+        ).map((id) => questions[id]),
+        unanswered: Object.keys(questions).filter((id) => 
+        questions[id].optionOne.votes.includes(authedUser)
+        === questions[id].optionTwo.votes.includes(authedUser)
+        ).map((id) => questions[id]),
+      }
+};
 
 export default connect(mapStateToProps)(Dashboard)

@@ -1,14 +1,17 @@
 
 import { useState } from "react";
 import { connect } from "react-redux";
-import TextField from '@mui/material/TextField';
+import { TextField, Button } from '@mui/material';
 
-const AddQuestion = ({ authedUser }) => {
+import { sendSavedQuestion } from "../actions/questions";
+
+const DEFAULT_FORM = {
+  optionOneText: "",
+  optionTwoText: ""
+}
+const AddQuestion = ({ authedUser, dispatch }) => {
     console.log('authedUser', authedUser)
-    const [formValue, setFormValue] = useState({
-        optionOne: "",
-        optionTwo: "",
-      });
+    const [formValue, setFormValue] = useState(DEFAULT_FORM);
 
       const handleChange = (event) => {
         const { name, value } = event.target;
@@ -20,12 +23,22 @@ const AddQuestion = ({ authedUser }) => {
         });
       };
 
-      const { optionOne, optionTwo } = formValue;
+      const handleSubmit = () => {
+        const formData =  {
+          ...formValue,
+          author: authedUser
+        }
+        setFormValue(DEFAULT_FORM)
+        console.log('formData', formData)
+        dispatch(sendSavedQuestion(formData));
+      }
+
     return (
         <>
         <p>Would you rather...</p>
-        <TextField name="optionOne" value={optionOne} label="Question 1" variant="outlined" onChange={handleChange} />
-        <TextField name="optionTwo" value={optionTwo} label="Question 2" variant="outlined" onChange={handleChange} />
+        <TextField name="optionOneText" value={formValue.optionOneText} label="Question 1" variant="outlined" onChange={handleChange} />
+        <TextField name="optionTwoText" value={formValue.optionTwoText} label="Question 2" variant="outlined" onChange={handleChange} />
+        <Button type="submit" onClick={handleSubmit}>Submit</Button>
         </>
     )
 }
