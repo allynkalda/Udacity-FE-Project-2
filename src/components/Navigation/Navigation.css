@@ -1,0 +1,19 @@
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+.profile-container {
+    display: flex;
+    align-items: center;
+}
+
+.profile-name {
+    font-weight: bold;
+}

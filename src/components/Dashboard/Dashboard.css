@@ -1,0 +1,14 @@
+.poll-list-container {
+    width: 90%;
+    border: 1px solid #ccc;
+    padding: 2rem;
+    margin: 2rem;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.poll-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}

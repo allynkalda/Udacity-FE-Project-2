@@ -1,0 +1,14 @@
+.avatar {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+}
+
+.leaderboard {
+    margin: 40px;
+}

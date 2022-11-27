@@ -1,0 +1,13 @@
+.poll-card {
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 4px;
+    text-align: center;
+    min-width: 25%;
+    background-color: rgb(88, 88, 88);
+    color: #fff;
+}
+
+.link {
+    text-decoration: none;
+}
