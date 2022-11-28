@@ -51,8 +51,8 @@ const LeaderBoard = ({ users, questions }) => {
                                     <p>{user.id}</p>
                                 </div>
                             </TableCell>
-                            <TableCell align="center">{created.length}</TableCell>
                             <TableCell align="center">{answered.length}</TableCell>
+                            <TableCell align="center">{created.length}</TableCell>
                             </TableRow>
                         )
                     })}
