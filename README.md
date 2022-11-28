@@ -2,6 +2,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+The user can log in using a dropdown and see the dashboard. The dashboard contains answered and unanswered polls. Clicking on the poll will lead to the page where the user can choose the answer. The leaderboard shows the number of answered and unanswered polls of every user. User can also create new polls for everyone to answer.
+
 ## Available Scripts
 
 In the project directory, you can run:
