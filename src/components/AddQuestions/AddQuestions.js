@@ -23,7 +23,6 @@ const AddQuestion = ({ authedUser, dispatch }) => {
             [name]: value,
           };
         });
-        navigate("/dashboard");
       };
 
       const handleSubmit = () => {
@@ -33,6 +32,7 @@ const AddQuestion = ({ authedUser, dispatch }) => {
         }
         setFormValue(DEFAULT_FORM)
         dispatch(sendSavedQuestion(formData));
+        navigate("/dashboard");
       }
 
     return (

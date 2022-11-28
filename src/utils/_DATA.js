@@ -47,7 +47,7 @@ let users = {
     }
   }
   
-  let questions = {
+  export let questions = {
     "8xf0y6ziyjabvozdd253nd": {
       id: '8xf0y6ziyjabvozdd253nd',
       author: 'sarahedo',
@@ -144,7 +144,7 @@ let users = {
     })
   }
   
-  function formatQuestion ({ optionOneText, optionTwoText, author }) {
+  export function formatQuestion ({ optionOneText, optionTwoText, author }) {
     return {
       id: generateUID(),
       timestamp: Date.now(),
@@ -159,7 +159,7 @@ let users = {
       }
     }
   }
-  
+
   export function _saveQuestion (question) {
     return new Promise((resolve, reject) => {
       if (!question.optionOneText || !question.optionTwoText || !question.author) {
@@ -177,37 +177,45 @@ let users = {
       }, 1000)
     })
   }
+
+  export const createUpdatedQuestions = (data) => {
+    const { authedUser, qid, answer } = data
+    users = {
+      ...users,
+      [authedUser]: {
+        ...users[authedUser],
+        answers: {
+          ...users[authedUser].answers,
+          [qid]: answer
+        }
+      }
+    }
+
+    questions = {
+      ...questions,
+      [qid]: {
+        ...questions[qid],
+        [answer]: {
+          ...questions[qid][answer],
+          votes: questions[qid][answer].votes.concat([authedUser])
+        }
+      }
+    }
+
+    return questions
+  }
   
-  export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
+  export function _saveQuestionAnswer (answerData) {
+    const { authedUser, qid, answer } = answerData
     return new Promise((resolve, reject) => {
       if (!authedUser || !qid || !answer) {
         reject("Please provide authedUser, qid, and answer");
       }
   
       setTimeout(() => {
-        users = {
-          ...users,
-          [authedUser]: {
-            ...users[authedUser],
-            answers: {
-              ...users[authedUser].answers,
-              [qid]: answer
-            }
-          }
-        }
+        const updatedQuestions = createUpdatedQuestions(answerData)
   
-        questions = {
-          ...questions,
-          [qid]: {
-            ...questions[qid],
-            [answer]: {
-              ...questions[qid][answer],
-              votes: questions[qid][answer].votes.concat([authedUser])
-            }
-          }
-        }
-  
-        resolve(questions)
+        resolve(updatedQuestions)
       }, 500)
     })
   }

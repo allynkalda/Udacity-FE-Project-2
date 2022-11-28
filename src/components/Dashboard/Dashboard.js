@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
+import { CircularProgress } from '@mui/material';
+
 import PollCard from "../PollCard/PollCard";
-
 import { getNumberofAnswered, getNumberOfUnanswered } from "../../utils/questions";
-
 import { getAllQuestions } from "../../actions/shared";
 
 import './Dashboard.css'
 
-const Dashboard = ({ dispatch, answered, unanswered }) => {
+const Dashboard = ({ dispatch, answered, unanswered, loading }) => {
     useEffect(() => {
         dispatch(getAllQuestions());
       }, [dispatch]);
@@ -17,6 +17,7 @@ const Dashboard = ({ dispatch, answered, unanswered }) => {
         <div className="poll-list-container">
             <h3>Unanswered</h3>
             <div className="poll-list">
+                {loading && <CircularProgress />}
                 {unanswered.map((question, index) => (
                     <PollCard key={index} question={question} />
                 ))}
@@ -28,6 +29,7 @@ const Dashboard = ({ dispatch, answered, unanswered }) => {
         <div className="poll-list-container">
             <h3>Answered</h3>
             <div className="poll-list">
+                {loading && <CircularProgress />}
                 {answered.map((question, index) => (
                     <PollCard key={index} question={question} />
                 ))}
@@ -42,10 +44,11 @@ const Dashboard = ({ dispatch, answered, unanswered }) => {
     )
 }
 
-const mapStateToProps = ({ authedUser, questions }) => {
+const mapStateToProps = ({ authedUser, questions, loading }) => {
     return {
         authedUser,
         answered: getNumberofAnswered(questions, authedUser.id),
+        loading,
         unanswered: getNumberOfUnanswered(questions, authedUser.id)
             .sort((a, b) => b.timestamp - a.timestamp)
       }

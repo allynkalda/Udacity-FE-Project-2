@@ -1,4 +1,5 @@
 import { saveQuestion, saveQuestionAnswer } from "../utils/api";
+import { createUpdatedQuestions, formatQuestion } from "../utils/_DATA";
 
 export const ADD_QUESTION_ANSWER = "ADD_QUESTION_ANSWER";
 export const GET_QUESTIONS = "GET_QUESTIONS";
@@ -27,6 +28,8 @@ export function addQuestionAnswer(answer) {
 
 export function sendSavedQuestion(question) {
   return (dispatch) => {
+    const formattedQuestion = formatQuestion(question)
+    dispatch(addQuestion(formattedQuestion))
     return saveQuestion(question).then((res) => {
       dispatch(addQuestion(res));
     });
@@ -35,6 +38,8 @@ export function sendSavedQuestion(question) {
 
 export function sendSavedQuestionAnswer(answer) {
   return (dispatch) => {
+    const updatedQuestions = createUpdatedQuestions(answer)
+    dispatch(addQuestionAnswer(updatedQuestions))
     return saveQuestionAnswer(answer).then((res) => {
       dispatch(addQuestionAnswer(res));
     });
