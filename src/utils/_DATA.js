@@ -174,7 +174,7 @@ let users = {
         }
   
         resolve(formattedQuestion)
-      }, 1000)
+      }, 500)
     })
   }
 
