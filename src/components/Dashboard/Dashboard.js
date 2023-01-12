@@ -13,6 +13,8 @@ const Dashboard = ({ dispatch, answered, unanswered, loading }) => {
         dispatch(getAllQuestions());
       }, [dispatch]);
 
+      console.log('unanswered', unanswered)
+
     const UnansweredList = () => (
         <div className="poll-list-container">
             <h3>Unanswered</h3>
@@ -45,6 +47,7 @@ const Dashboard = ({ dispatch, answered, unanswered, loading }) => {
 }
 
 const mapStateToProps = ({ authedUser, questions, loading }) => {
+    console.log('questions', questions)
     return {
         authedUser,
         answered: getNumberofAnswered(questions, authedUser.id),

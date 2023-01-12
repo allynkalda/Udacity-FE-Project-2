@@ -30,6 +30,7 @@ const AddQuestion = ({ authedUser, dispatch }) => {
           ...formValue,
           author: authedUser.id
         }
+        
         setFormValue(DEFAULT_FORM)
         dispatch(sendSavedQuestion(formData));
         navigate("/dashboard");
