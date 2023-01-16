@@ -61,7 +61,8 @@ const Dashboard = ({ dispatch, answered, unanswered, loading }) => {
 const mapStateToProps = ({ authedUser, questions, loading }) => {
     return {
         authedUser,
-        answered: getNumberofAnswered(questions, authedUser.id),
+        answered: getNumberofAnswered(questions, authedUser.id)
+            .sort((a, b) => b.timestamp - a.timestamp),
         loading,
         unanswered: getNumberOfUnanswered(questions, authedUser.id)
             .sort((a, b) => b.timestamp - a.timestamp)
