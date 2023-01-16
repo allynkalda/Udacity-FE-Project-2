@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Tabs, Tab, Box,  } from '@mui/material';
 
 import PollCard from "../PollCard/PollCard";
 import { getNumberofAnswered, getNumberOfUnanswered } from "../../utils/questions";
@@ -9,6 +9,13 @@ import { getAllQuestions } from "../../actions/shared";
 import './Dashboard.css'
 
 const Dashboard = ({ dispatch, answered, unanswered, loading }) => {
+
+    const [value, setValue] = useState(0);
+
+    const handleChange = (newValue) => {
+      setValue(newValue);
+    };
+
     useEffect(() => {
         dispatch(getAllQuestions());
       }, [dispatch]);
@@ -39,15 +46,19 @@ const Dashboard = ({ dispatch, answered, unanswered, loading }) => {
         </div>
     )
     return (
-        <>
-        <UnansweredList />
-        <AnsweredList />
-        </>
+    <Box sx={{ width: '100%', padding: 2 }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs value={value} aria-label="basic tabs example">
+            <Tab label="Unanswered List" onClick={() => handleChange(0)} />
+            <Tab label="Answered List" onClick={() => handleChange(1)} />
+          </Tabs>
+        </Box>
+        {value === 0 ? <UnansweredList /> : <AnsweredList />}
+    </Box>
     )
 }
 
 const mapStateToProps = ({ authedUser, questions, loading }) => {
-    console.log('questions', questions)
     return {
         authedUser,
         answered: getNumberofAnswered(questions, authedUser.id),
