@@ -7,7 +7,15 @@ import { Provider } from "react-redux";
 import reducer from "./reducers";
 import middleware from "./middleware";
 
-const store = createStore(reducer, middleware);
+const persistedState = localStorage.getItem('reduxState') 
+                       ? JSON.parse(localStorage.getItem('reduxState'))
+                       : {}
+                      
+const store = createStore(reducer, persistedState, middleware);
+
+store.subscribe(()=>{
+  localStorage.setItem('reduxState', JSON.stringify(store.getState()))
+})
 
 ReactDOM.render(
   <Provider store={store}>

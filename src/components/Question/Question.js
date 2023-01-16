@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux"
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Button, Alert } from '@mui/material';
 
 import { sendSavedQuestionAnswer } from "../../actions/questions";
 
@@ -12,11 +12,9 @@ const Question = ({ authedUser, questions, dispatch, users }) => {
     let { question_id } = useParams();
     let navigate = useNavigate();
     const question = questions[question_id]
-    const [ answer, setAnswer ] = useState('');
+    const [ answer, setAnswer ] = useState('')
     const [ answered, setAnswered ] = useState(0)
-
-    console.log('question', question)
-    console.log('answered', answered)
+    const [ isSuccess, setIsSuccess ] = useState(false)
 
     const handleClickAnswer = (value) => {
         setAnswer(value);
@@ -28,18 +26,23 @@ const Question = ({ authedUser, questions, dispatch, users }) => {
             qid: question_id,
             answer
         }))
-        navigate("/dashboard");
+        setIsSuccess(true)
     }
 
     useEffect(() => {
-        const checkOptionOne = question.optionOne.votes.includes(authedUser.id)
-        const checkOptionTwo = question.optionTwo.votes.includes(authedUser.id)
-        if (checkOptionOne) setAnswered(1)
-        if (checkOptionTwo) setAnswered(2)
-    }, [authedUser, question.optionOne.votes, question.optionTwo.votes])
+        if (!question) {
+            navigate("/error");
+        } else {
+            const checkOptionOne = question.optionOne?.votes.includes(authedUser.id)
+            const checkOptionTwo = question.optionTwo?.votes.includes(authedUser.id)
+            if (checkOptionOne) setAnswered(1)
+            if (checkOptionTwo) setAnswered(2)
+        }
+    }, [authedUser, navigate, question, question?.optionOne?.votes, question?.optionTwo?.votes])
 
-    return (
+    return question ? (
         <div className="question-container">
+        {isSuccess && <Alert severity="success">Answer submitted!</Alert>}
         <h3>Poll by {question.author}</h3> 
         <img src={users[question.author].avatarURL} alt="avatar-question" className="avatar"/>
         <h4>Would you rather...</h4>
@@ -49,7 +52,7 @@ const Question = ({ authedUser, questions, dispatch, users }) => {
         </div>
         <Button sx={{ margin: 2 }} variant="outlined" onClick={handleSubmit} disabled={answered !== 0}>Submit</Button>
         </div>
-    )
+    ) : null
 }
 
 const mapStateToProps = ({ authedUser, questions, users }) => ({

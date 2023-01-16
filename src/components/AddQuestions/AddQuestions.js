@@ -38,10 +38,14 @@ const AddQuestion = ({ authedUser, dispatch }) => {
 
     return (
         <div className="text-field-container">
-        <h3>Would you rather...</h3>
-        <TextField margin="normal" name="optionOneText" value={formValue.optionOneText} label="Question 1" variant="outlined" onChange={handleChange} />
-        <TextField margin="normal" name="optionTwoText" value={formValue.optionTwoText} label="Question 2" variant="outlined" onChange={handleChange} />
-        <Button sx={{ margin: 2 }} type="submit" onClick={handleSubmit}>Submit</Button>
+          <div className="info-profile-container">
+            <h4>Poll by {authedUser?.name}</h4>
+            <img className="avatar-profile" src={authedUser?.avatarURL} alt="avatar" />
+            <h3>Would you rather...</h3>
+          </div>
+          <TextField margin="normal" name="optionOneText" value={formValue.optionOneText} label="Question 1" variant="outlined" onChange={handleChange} />
+          <TextField margin="normal" name="optionTwoText" value={formValue.optionTwoText} label="Question 2" variant="outlined" onChange={handleChange} />
+          <Button sx={{ margin: 2 }} type="submit" onClick={handleSubmit}>Submit</Button>
         </div>
     )
 }

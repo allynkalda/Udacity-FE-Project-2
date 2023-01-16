@@ -20,8 +20,6 @@ const Dashboard = ({ dispatch, answered, unanswered, loading }) => {
         dispatch(getAllQuestions());
       }, [dispatch]);
 
-      console.log('unanswered', unanswered)
-
     const UnansweredList = () => (
         <div className="poll-list-container">
             <h3>Unanswered</h3>

@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AddQuestions from "./AddQuestions/AddQuestions";
 import Question from "./Question/Question";
 import LeaderBoard from "./LeaderBoard/LeaderBoard";
+import Error from "./Error/Error";
 
 import './App.css'
 
@@ -28,7 +29,7 @@ const App = ({ authedUser, dispatch }) => {
           <Route path="/questions/:question_id" element={<Question />} />
         </Route>
         <Route path="/login" element={<Dropdown />} />
-        <Route path="*" element={<p>Not found</p>} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </div>
   </Router>
