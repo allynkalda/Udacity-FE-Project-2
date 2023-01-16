@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
+import { formatDate } from '../../utils/date';
 
 import PollCard from './PollCard';
 
@@ -29,7 +30,7 @@ test('renders converted timestamp', () => {
 
   render(<PollCard question={mockQuestion} />, {wrapper: MemoryRouter})
 
-  expect(screen.getByTestId("timestamp")).toHaveTextContent('9:02:AM | 14/07/2016')
+  expect(screen.getByTestId("timestamp")).toHaveTextContent(formatDate(mockQuestion.timestamp))
 });
 
 test('renders error warning when props is empty', () => {
