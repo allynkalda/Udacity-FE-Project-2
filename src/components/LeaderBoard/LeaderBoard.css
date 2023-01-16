@@ -1,14 +1,22 @@
 .avatar {
-    width: 24px;
-    height: 24px;
+    width: 34px;
+    height: 34px;
     margin-right: 10px;
 }
 
-.profile {
+.avatar-profile {
     display: flex;
     align-items: center;
 }
 
 .leaderboard {
     margin: 40px;
+}
+
+.status {
+    margin-top: 20px;
+    border: 1px solid #dbdbdb;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 12px;
 }

@@ -20,6 +20,8 @@ const Question = ({ authedUser, questions, dispatch, users }) => {
         setAnswer(value);
     };
 
+    console.log('question', question)
+
     const handleSubmit = () => {
         dispatch(sendSavedQuestionAnswer({
             authedUser: authedUser.id,
@@ -40,6 +42,17 @@ const Question = ({ authedUser, questions, dispatch, users }) => {
         }
     }, [authedUser, navigate, question, question?.optionOne?.votes, question?.optionTwo?.votes])
 
+    const percentageByOption = (option) => {
+        const sumOfVotes = question?.optionOne.votes.length + question?.optionTwo.votes.length
+        let percent;
+        if (option === 1) {
+            percent = (question?.optionOne.votes.length / sumOfVotes) * 100
+        } else {
+            percent = (question?.optionTwo.votes.length / sumOfVotes) * 100
+        }
+        return percent.toFixed(0)
+    }
+
     return question ? (
         <div className="question-container">
         {isSuccess && <Alert severity="success">Answer submitted!</Alert>}
@@ -51,6 +64,11 @@ const Question = ({ authedUser, questions, dispatch, users }) => {
         <Button sx={{ margin: 2, backgroundColor: answered === 2 && '#f45079 !important' }} disabled={answered !== 0} variant="contained" onClick={() => handleClickAnswer("optionTwo")}>{question.optionTwo.text}</Button>
         </div>
         <Button sx={{ margin: 2 }} variant="outlined" onClick={handleSubmit} disabled={answered !== 0}>Submit</Button>
+        <div className="status">
+        <p>Stats:</p>
+            <p>Option 1 - Votes: {question?.optionOne.votes.length}, Percentage: {percentageByOption(1)}%</p>
+            <p>Option 2 - Votes: {question?.optionTwo.votes.length}, Percentage: {percentageByOption(2)}%</p>
+        </div>
         </div>
     ) : null
 }
