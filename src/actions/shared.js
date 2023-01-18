@@ -13,7 +13,6 @@ export function handleInitialData() {
 export function getAllQuestions() {
     return (dispatch) => {
         return getInitialQuestions().then(({ questions }) => {
-          console.log('getAllQuestions', questions)
           dispatch(getQuestions(questions));
         });
     };

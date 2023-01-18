@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
 
-import { handleInitialData } from "../actions/shared";
+import { handleInitialData, getAllQuestions } from "../actions/shared";
 import Dropdown from "./Dropdown/Dropdown";
 import PrivateRoute from "./PrivateRoute"
 import Dashboard from "./Dashboard/Dashboard"
@@ -16,6 +16,7 @@ import './App.css'
 const App = ({ authedUser, dispatch }) => {
   useEffect(() => {
     dispatch(handleInitialData());
+    dispatch(getAllQuestions());
   }, [dispatch]);
 
   return (

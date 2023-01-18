@@ -9,8 +9,8 @@ import { sendSavedQuestionAnswer } from "../../actions/questions";
 import './Question.css'
 
 const Question = ({ authedUser, questions, dispatch, users }) => {
-    let { question_id } = useParams();
-    let navigate = useNavigate();
+    const { question_id } = useParams();
+    const navigate = useNavigate();
     const question = questions[question_id]
     const [ answer, setAnswer ] = useState('')
     const [ answered, setAnswered ] = useState(0)
@@ -19,8 +19,6 @@ const Question = ({ authedUser, questions, dispatch, users }) => {
     const handleClickAnswer = (value) => {
         setAnswer(value);
     };
-
-    console.log('question', question)
 
     const handleSubmit = () => {
         dispatch(sendSavedQuestionAnswer({

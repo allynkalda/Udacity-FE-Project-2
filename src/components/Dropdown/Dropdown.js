@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { connect } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -7,12 +8,17 @@ import Select from '@mui/material/Select';
 
 import { setAuthedUser } from "../../actions/authedUser";
 
-const Dropdown = ({ employees, authedUser, dispatch }) => {
-    let navigate = useNavigate();
+const Dropdown = ({ employees, dispatch }) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    console.log('location', location)
+
+    const [chosenUser, setChosenUser] = useState('')
 
     const handleSelect = (id) => {
+        setChosenUser(employees[id].id)
         dispatch(setAuthedUser(employees[id]))
-        navigate("/dashboard");
+        navigate(location.state ? location.state.from.pathname : '/dashboard');
     }
 
     return (
@@ -22,7 +28,7 @@ const Dropdown = ({ employees, authedUser, dispatch }) => {
         <FormControl sx={{ m: 1, minWidth: 150 }}>
         <InputLabel>Logged in as: </InputLabel>
         <Select
-          value={authedUser}
+          value={chosenUser}
           label="Login"
           onChange={(e) => handleSelect(e.target.value)}
         >
@@ -36,9 +42,8 @@ const Dropdown = ({ employees, authedUser, dispatch }) => {
 
 }
 
-const mapStateToProps = ({ users, authedUser }) => ({
-    employees: users,
-    authedUser
+const mapStateToProps = ({ users }) => ({
+    employees: users
   });
 
 export default connect(mapStateToProps)(Dropdown)
